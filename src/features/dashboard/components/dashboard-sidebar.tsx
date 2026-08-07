@@ -142,7 +142,7 @@ export const DashboardSidebar = () => {
         className="flex items-center gap-2 pl-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:pl-0">
           <Image
             src="/logo.svg"
-            alt="Resonance"
+            alt="Nexora"
             width={24}
             height={24}
             className="rounded-sm"
