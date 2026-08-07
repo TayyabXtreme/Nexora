@@ -6,6 +6,8 @@ import {
   TabsList, 
   TabsTrigger
 } from "@/components/ui/tabs";
+import { SettingsPanelSettings } from "./settings-panel-settings";
+import { SettingsPanelHistory } from "./settings-panel-history";
 
 
 
@@ -33,13 +35,13 @@ export function SettingsPanel() {
           value="settings"
           className="mt-0 flex min-h-0 flex-1 flex-col overflow-y-auto"
         >
-          {/* <SettingsPanelSettings /> */}
+          <SettingsPanelSettings />
         </TabsContent>
         <TabsContent
           value="history"
           className="mt-0 flex min-h-0 flex-1 flex-col overflow-y-auto"
         >
-          {/* <SettingsPanelHistory /> */}
+          <SettingsPanelHistory />
         </TabsContent>
       </Tabs>
     </div>

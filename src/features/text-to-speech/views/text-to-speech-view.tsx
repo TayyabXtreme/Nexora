@@ -1,18 +1,21 @@
 import { SettingsPanel } from "../components/settings-panel"
 import { TextInputPanel } from "../components/text-input-panel"
+import { TextToSpeechForm } from "../components/text-to-speech-form"
 import { VoicePreviewPlaceholder } from "../components/voice-preview-placeholder"
 
 
 
 export const TextToSpeechView = () => {
   return (
-    <div className="flex min-h-0 flex-1 overflow-hidden">
+    <TextToSpeechForm>    <div className="flex min-h-0 flex-1 overflow-hidden">
         <div className="flex flex-1 min-h-0 flex-col">
             <TextInputPanel/>
             <VoicePreviewPlaceholder />
         </div>
         <SettingsPanel/>
         </div>
+    </TextToSpeechForm>
+
   )
 }
 
