@@ -36,6 +36,7 @@ import {
   Headphones,
 } from "lucide-react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 
 interface MenuItem {
@@ -50,6 +51,26 @@ interface NavSectionProps {
   items: MenuItem[];
   pathname: string;
 }
+
+const ClerkOrganizationSwitcher = dynamic(
+  () => import("@clerk/nextjs").then((mod) => mod.OrganizationSwitcher),
+  {
+    ssr: false,
+    loading: () => (
+      <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border bg-white" />
+    ),
+  },
+);
+
+const ClerkUserButton = dynamic(
+  () => import("@clerk/nextjs").then((mod) => mod.UserButton),
+  {
+    ssr: false,
+    loading: () => (
+      <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border border-border bg-white" />
+    ),
+  },
+);
 
 function NavSection({ label, items, pathname }: NavSectionProps) {
   return (
@@ -154,7 +175,7 @@ export const DashboardSidebar = () => {
         </div>
         <SidebarMenu>
           <SidebarMenuItem>
-            <OrganizationSwitcher
+            <ClerkOrganizationSwitcher
               hidePersonal
               fallback={
                 <Skeleton
@@ -163,13 +184,13 @@ export const DashboardSidebar = () => {
               }
               appearance={{
                 elements: {
-                  rootBox: 
+                  rootBox:
                     "w-full! group-data-[collapsible=icon]:w-auto! group-data-[collapsible=icon]:flex! group-data-[collapsible=icon]:justify-center!",
                   organizationSwitcherTrigger:
                     "w-full! justify-between! bg-white! border! border-border! rounded-md! pl-1! pr-2! py-1! gap-3! group-data-[collapsible=icon]:w-auto! group-data-[collapsible=icon]:p-1! shadow-[0px_1px_1.5px_0px_rgba(44,54,53,0.03)]!",
                   organizationPreview: "gap-2!",
                   organizationPreviewAvatarBox: "size-6! rounded-sm!",
-                  organizationPreviewTextContainer: 
+                  organizationPreviewTextContainer:
                     "text-xs! tracking-tight! font-medium! text-foreground! group-data-[collapsible=icon]:hidden!",
                   organizationPreviewMainIdentifier: "text-[13px]!",
                   organizationSwitcherTriggerIcon:
@@ -194,7 +215,7 @@ export const DashboardSidebar = () => {
         
         <SidebarMenu>
           <SidebarMenuItem>
-            <UserButton
+            <ClerkUserButton
               showName
               fallback={
                 <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border border-border bg-white" />
