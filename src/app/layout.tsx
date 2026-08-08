@@ -3,7 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Geist_Mono, Inter } from "next/font/google";
 
 import { Toaster } from "@/components/ui/toast";
-
+import {TRPCReactProvider} from "@/trpc/client"
 import "./globals.css";
 
 const inter = Inter({
@@ -67,6 +67,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <ClerkProvider>
+      <TRPCReactProvider>
       <html
         lang="en"
         className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Toaster />
         </body>
       </html>
+      </TRPCReactProvider>
     </ClerkProvider>
   );
 }
