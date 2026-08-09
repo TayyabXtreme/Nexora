@@ -18,7 +18,7 @@ export function TextInputPanel() {
 
   const form = useTypedAppFormContext(ttsFormOptions);
 
-  const text = useSelector(form.store, (s) => s.values.text);
+  const text = useSelector(form.store, (s) => s.values.text) ?? "";
   const isSubmitting = useSelector(form.store, (s) => s.isSubmitting);
   const isValid = useSelector(form.store, (s) => s.isValid);
   return (

@@ -3,11 +3,11 @@
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { formOptions } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
 
+import { useTRPC } from "@/trpc/client";
 import { useAppForm } from "@/hooks/use-app-form";
 import { toast } from "@/components/ui/toast";
-
-
 
 const ttsFormSchema = z.object({
   text: z.string().min(1, "Please enter some text"),
@@ -18,9 +18,7 @@ const ttsFormSchema = z.object({
   repetitionPenalty: z.number(),
 });
 
-
 export type TTSFormValues = z.infer<typeof ttsFormSchema>;
-
 
 export const defaultTTSValues: TTSFormValues = {
   text: "",
@@ -31,12 +29,9 @@ export const defaultTTSValues: TTSFormValues = {
   repetitionPenalty: 1.2,
 };
 
-
 export const ttsFormOptions = formOptions({
   defaultValues: defaultTTSValues,
 });
-
-
 
 export function TextToSpeechForm({
   children,
@@ -45,9 +40,11 @@ export function TextToSpeechForm({
   children: React.ReactNode;
   defaultValues?: TTSFormValues;
 }) {
+  const trpc = useTRPC();
   const router = useRouter();
-
-
+  const createMutation = useMutation(
+    trpc.generations.create.mutationOptions({}),
+  );
 
   const form = useAppForm({
     ...ttsFormOptions,
@@ -57,17 +54,18 @@ export function TextToSpeechForm({
     },
     onSubmit: async ({ value }) => {
       try {
-        const data = {id:'123'}
-        // await createMutation.mutateAsync({
-        //   text: value.text.trim(),
-        //   voiceId: value.voiceId,
-        //   temperature: value.temperature,
-        //   topP: value.topP,
-        //   topK: value.topK,
-        //   repetitionPenalty: value.repetitionPenalty,
-        // });
-        
-        toast.add({title:"Audio generated successfully!"});
+        const data = await createMutation.mutateAsync({
+          text: value.text.trim(),
+          voiceId: value.voiceId,
+          temperature: value.temperature,
+          topP: value.topP,
+          topK: value.topK,
+          repetitionPenalty: value.repetitionPenalty,
+        });
+
+        toast.add({
+          title: "Audio generated successfully!",
+        });
         router.push(`/text-to-speech/${data.id}`);
       } catch (error) {
         const message =
@@ -76,18 +74,21 @@ export function TextToSpeechForm({
         if (message === "SUBSCRIPTION_REQUIRED") {
           toast.add({
             type: "error",
-            title:"Subscription required",
+            title: "Subscription required",
             actionProps: {
               children: "Subscribe",
               onClick: () => {},
             },
           });
         } else {
-          toast.add({ type: "error",title:"Error", description: message});
+          toast.add({
+            title: "Failed to generate audio",
+            description: message,
+          });
         }
       }
     },
   });
 
   return <form.AppForm>{children}</form.AppForm>;
-};
+}
