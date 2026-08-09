@@ -1,8 +1,7 @@
 "use client";
 
-import { useSuspenseQueries } from "@tanstack/react-query";
+import type { inferRouterOutputs } from "@trpc/server";
 
-import { useTRPC } from "@/trpc/client";
 import { TextInputPanel } from "@/features/text-to-speech/components/text-input-panel";
 import { SettingsPanel } from "@/features/text-to-speech/components/settings-panel";
 import {
@@ -12,29 +11,24 @@ import {
 import { TTSVoicesProvider } from "../contexts/tts-voices-context";
 import { VoicePreviewPanel } from "../components/voice-preview-panel";
 import { VoicePreviewMobile } from "../components/voice-preview-mobile";
+import type { AppRouter } from "@/trpc/routers/_app";
+
+type GenerationQueryOutput = inferRouterOutputs<AppRouter>["generations"]["getById"];
+type VoicesQueryOutput = inferRouterOutputs<AppRouter>["voices"]["getAll"];
 
 export function TextToSpeechDetailView({
-  generationId,
+  generation,
+  voices,
 }: {
-  generationId: string;
+  generation: GenerationQueryOutput;
+  voices: VoicesQueryOutput;
 }) {
-  const trpc = useTRPC();
-  const [ 
-    generationQuery,
-    voicesQuery,
-  ] = useSuspenseQueries({
-    queries: [
-      trpc.generations.getById.queryOptions({ id: generationId }),
-      trpc.voices.getAll.queryOptions()
-    ],
-  });
-
-  const data = generationQuery.data;
-  const customVoices = Array.isArray(voicesQuery.data.custom)
-    ? voicesQuery.data.custom
+  const data = generation;
+  const customVoices = Array.isArray(voices.custom)
+    ? voices.custom
     : [];
-  const systemVoices = Array.isArray(voicesQuery.data.system)
-    ? voicesQuery.data.system
+  const systemVoices = Array.isArray(voices.system)
+    ? voices.system
     : [];
   const allVoices = [...customVoices, ...systemVoices];
 
@@ -66,7 +60,7 @@ export function TextToSpeechDetailView({
 
   return (
     <TTSVoicesProvider value={{ customVoices, systemVoices, allVoices }}>
-      <TextToSpeechForm key={generationId} defaultValues={defaultValues}>
+      <TextToSpeechForm key={data.id} defaultValues={defaultValues}>
         <div className="flex min-h-0 flex-1 overflow-hidden">
           <div className="flex min-h-0 flex-1 flex-col">
             <TextInputPanel />

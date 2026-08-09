@@ -10,7 +10,7 @@ import {
 import { useTypedAppFormContext } from "@/hooks/use-app-form";
 import { ttsFormOptions } from "./text-to-speech-form";
 import { useSelector } from "@tanstack/react-form";
-import { SettingsDrawer } from "./settings-drawer";
+// import { SettingsDrawer } from "./settings-drawer";
 import { GenerateButton } from "./generate-button";
 import { PromptSuggestions } from "./prompt-suggestions";
 

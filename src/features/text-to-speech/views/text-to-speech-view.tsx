@@ -1,8 +1,7 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import type { inferRouterOutputs } from "@trpc/server";
 
-import { useTRPC } from "@/trpc/client";
 import { TextInputPanel } from "@/features/text-to-speech/components/text-input-panel";
 import { VoicePreviewPlaceholder } from "@/features/text-to-speech/components/voice-preview-placeholder";
 import { SettingsPanel } from "@/features/text-to-speech/components/settings-panel";
@@ -12,17 +11,19 @@ import {
   type TTSFormValues
 } from "@/features/text-to-speech/components/text-to-speech-form";
 import { TTSVoicesProvider } from "../contexts/tts-voices-context";
+import type { AppRouter } from "@/trpc/routers/_app";
+
+type VoicesQueryOutput = inferRouterOutputs<AppRouter>["voices"]["getAll"];
 
 export function TextToSpeechView({
   initialValues,
+  voices,
 }: {
   initialValues?: Partial<TTSFormValues>;
+  voices: VoicesQueryOutput;
 }) {
-  const trpc = useTRPC();
-  const { data: voices } = useQuery(trpc.voices.getAll.queryOptions());
-
-  const customVoices = Array.isArray(voices?.custom) ? voices.custom : [];
-  const systemVoices = Array.isArray(voices?.system) ? voices.system : [];
+  const customVoices = Array.isArray(voices.custom) ? voices.custom : [];
+  const systemVoices = Array.isArray(voices.system) ? voices.system : [];
 
   const allVoices = [...customVoices, ...systemVoices];
   const fallbackVoiceId = allVoices[0]?.id ?? "";

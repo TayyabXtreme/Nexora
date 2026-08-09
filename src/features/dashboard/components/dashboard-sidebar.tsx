@@ -25,7 +25,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { OrganizationSwitcher, UserButton, useClerk } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 import {
   type LucideIcon,
   Home,

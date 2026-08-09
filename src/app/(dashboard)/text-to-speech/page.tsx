@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { caller } from "@/trpc/server";
 import { TextToSpeechView } from '@/features/text-to-speech/views/text-to-speech-view';
-import { HydrateClient } from "@/trpc/server";
 
 export const metadata: Metadata = { title: "Text to Speech" };
 
@@ -10,12 +10,14 @@ export default async function TextToSpeechPage({
   searchParams: Promise<{ text?: string; voiceId?: string }>;
 }) {
   const { text, voiceId } = await searchParams;
+  const voices = await caller.voices
+    .getAll()
+    .catch(() => ({ custom: [], system: [] }));
 
   return (
-    <HydrateClient>
-      <TextToSpeechView 
+    <TextToSpeechView 
       initialValues={{ text, voiceId }} 
-      />
-    </HydrateClient>
+      voices={voices}
+    />
   );
 }

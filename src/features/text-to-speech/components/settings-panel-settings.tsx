@@ -38,11 +38,17 @@ export function SettingsPanelSettings() {
                     </span>
                   </div>
                   <Slider
-                    value={[field.state.value]}
+                    value={[
+                      Number.isFinite(field.state.value)
+                        ? field.state.value
+                        : slider.defaultValue,
+                    ]}
                     onValueChange={(value) => {
                       const nextValue =
                         typeof value === "number" ? value : value[0];
-                      field.handleChange(nextValue);
+                      if (Number.isFinite(nextValue)) {
+                        field.handleChange(nextValue);
+                      }
                     }}
                     min={slider.min}
                     max={slider.max}

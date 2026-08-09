@@ -10,18 +10,35 @@ function Slider({
   max = 100,
   ...props
 }: SliderPrimitive.Root.Props) {
+  const fallbackValues = [min, max]
   const _values = Array.isArray(value)
-    ? value
+    ? value.map((nextValue, index) =>
+        Number.isFinite(nextValue)
+          ? nextValue
+          : fallbackValues[index] ?? min,
+      )
     : Array.isArray(defaultValue)
-      ? defaultValue
-      : [min, max]
+      ? defaultValue.map((nextValue, index) =>
+          Number.isFinite(nextValue)
+            ? nextValue
+            : fallbackValues[index] ?? min,
+        )
+      : fallbackValues
+
+  const safeValue = Array.isArray(value)
+    ? _values
+    : value
+
+  const safeDefaultValue = Array.isArray(defaultValue)
+    ? _values
+    : defaultValue
 
   return (
     <SliderPrimitive.Root
       className={cn("data-horizontal:w-full data-vertical:h-full", className)}
       data-slot="slider"
-      defaultValue={defaultValue}
-      value={value}
+      defaultValue={safeDefaultValue}
+      value={safeValue}
       min={min}
       max={max}
       thumbAlignment="edge"

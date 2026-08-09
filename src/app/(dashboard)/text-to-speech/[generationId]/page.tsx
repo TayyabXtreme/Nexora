@@ -1,22 +1,25 @@
-import { use } from "react";
+import { redirect } from "next/navigation";
+import { caller } from "@/trpc/server";
 
 import { TextToSpeechDetailView } from "@/features/text-to-speech/views/text-to-speech-detail-view";
-import { trpc, HydrateClient, prefetch } from "@/trpc/server";
 
-export default function TextToSpeechDetailPage({
+export default async function TextToSpeechDetailPage({
   params,
 }: {
   params: Promise<{ generationId: string }>;
 }) {
-  const { generationId } = use(params);
+  const { generationId } = await params;
 
-  prefetch(trpc.generations.getById.queryOptions({ id: generationId }));
-  prefetch(trpc.voices.getAll.queryOptions());
-  prefetch(trpc.generations.getAll.queryOptions());
+  const generation = await caller.generations.getById({ id: generationId }).catch(() => null);
+  if (!generation) {
+    redirect("/text-to-speech");
+  }
+
+  const voices = await caller.voices
+    .getAll()
+    .catch(() => ({ custom: [], system: [] }));
 
   return (
-    <HydrateClient>
-      <TextToSpeechDetailView generationId={generationId} />
-    </HydrateClient>
+    <TextToSpeechDetailView generation={generation} voices={voices} />
   );
 };
