@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { makeQueryClient } from './query-client';
 import type { AppRouter } from './routers/_app';
 import superjson from 'superjson';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
  
 export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
  
@@ -59,9 +60,11 @@ export function TRPCReactProvider(
  
   return (
     <QueryClientProvider client={queryClient}>
-      <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-        {props.children}
-      </TRPCProvider>
+      <NuqsAdapter>
+        <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+          {props.children}
+        </TRPCProvider>
+      </NuqsAdapter>
     </QueryClientProvider>
   );
 }

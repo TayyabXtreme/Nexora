@@ -16,7 +16,7 @@ export default async function TextToSpeechDetailPage({
   }
 
   const voices = await caller.voices
-    .getAll()
+    .getAll({ query: "" })
     .catch(() => ({ custom: [], system: [] }));
 
   return (

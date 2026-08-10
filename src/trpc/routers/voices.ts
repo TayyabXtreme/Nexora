@@ -7,20 +7,18 @@ import { createTRPCRouter, orgProcedure } from "../init";
 export const voicesRouter = createTRPCRouter({
   getAll: orgProcedure
     .input(
-      z
-        .object({
-          query: z.string().trim().optional(),
-        })
-        .optional(),
+      z.object({
+        query: z.string().default(""),
+      })
     )
     .query(async ({ ctx, input }) => {
-      const searchFilter = input?.query
+      const searchFilter = input.query
         ? {
           OR: [
-            { 
-              name: { 
+            {
+              name: {
                 contains: input.query, mode: "insensitive" as const
-              } 
+              }
             },
             {
               description: {
