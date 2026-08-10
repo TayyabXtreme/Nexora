@@ -3,7 +3,7 @@ import { useQueryState } from "nuqs";
 import { useDebouncedCallback } from "use-debounce";
 import { Search, Sparkles } from "lucide-react";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupInput,

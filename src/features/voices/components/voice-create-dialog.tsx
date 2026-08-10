@@ -64,7 +64,7 @@ export function VoiceCreateDialog({
         });
       }
     },
-    [],
+    [checkout]
   );
 
   if (isMobile) {
