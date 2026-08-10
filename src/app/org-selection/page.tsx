@@ -6,8 +6,8 @@ export default function OrgSelectionPage() {
       <OrganizationList
         hidePersonal
         skipInvitationScreen
-        afterSelectOrganizationUrl="/"
-        afterCreateOrganizationUrl="/"
+        afterSelectOrganizationUrl="/dashboard"
+        afterCreateOrganizationUrl="/dashboard"
         appearance={{
           elements: {
             rootBox: "mx-auto",

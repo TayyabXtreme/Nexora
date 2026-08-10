@@ -63,7 +63,7 @@ export default function NotFound() {
           <Button
             size="lg"
             nativeButton={false}
-            render={<Link href="/" />}
+            render={<Link href="/dashboard" />}
             className="h-11 rounded-full px-6 shadow-[0_12px_30px_rgba(15,23,42,0.12)] transition-transform hover:-translate-y-0.5"
           >
             <Home />

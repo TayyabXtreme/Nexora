@@ -1,7 +1,7 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const publicPaths = ["/sign-in", "/sign-up"];
+const publicPaths = ["/", "/sign-in", "/sign-up"];
 const orgSelectionPath = "/org-selection";
 
 const matchesPath = (pathname: string, base: string) =>

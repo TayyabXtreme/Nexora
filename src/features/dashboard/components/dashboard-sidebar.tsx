@@ -84,8 +84,8 @@ function NavSection({ label, items, pathname }: NavSectionProps) {
                 <SidebarMenuButton
                   render={<Link href={item.url} />}
                   isActive={
-                    item.url === "/"
-                      ? pathname === "/"
+                    item.url === "/dashboard"
+                      ? pathname === "/dashboard"
                       : pathname.startsWith(item.url)
                   }
                   tooltip={item.title}
@@ -120,7 +120,7 @@ export const DashboardSidebar = () => {
   const mainMenuItems: MenuItem[] = [
     {
       title: "Dashboard",
-      url: "/",
+      url: "/dashboard",
       icon: Home,
     },
     {
