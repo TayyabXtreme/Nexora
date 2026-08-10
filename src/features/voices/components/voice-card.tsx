@@ -138,7 +138,8 @@ export function VoiceCard({ voice }: VoiceCardProps) {
               <MoreHorizontal className="size-4" />
            
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end"
+          >
             <DropdownMenuItem render={<Link href={`/text-to-speech?voiceId=${voice.id}`} />}>
             
                 <Mic className="size-4 text-foreground" />

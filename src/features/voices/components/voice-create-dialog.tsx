@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 
 import { useCallback } from "react";
 import { toast } from "@/components/ui/toast";
+import { useCheckout } from "@/features/billing/hooks/use-checkout";
 
 
 interface VoiceCreateDialogProps {
@@ -40,6 +41,7 @@ export function VoiceCreateDialog({
   triggerClassName,
 }: VoiceCreateDialogProps) {
   const isMobile = useIsMobile();
+  const { checkout } = useCheckout();
 
 
   const handleError = useCallback(
@@ -49,6 +51,10 @@ export function VoiceCreateDialog({
             title: "Subscription required",
             description: "You need an active subscription to create a custom voice.",
             type: "error",
+            actionProps: {
+              children: "Subscribe",
+              onClick: () => checkout(),
+            },
         })
       } else {
         toast.add({

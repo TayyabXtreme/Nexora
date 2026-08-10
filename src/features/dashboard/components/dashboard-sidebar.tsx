@@ -38,6 +38,8 @@ import {
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { UsageContainer } from "@/features/billing/components/usage-container";
+import { VoiceCreateDialog } from "@/features/voices/components/voice-create-dialog";
 
 interface MenuItem {
   title: string;
@@ -157,6 +159,10 @@ export const DashboardSidebar = () => {
   ];
   return (
     <>
+     <VoiceCreateDialog
+      open={voiceDialogOpen}
+      onOpenChange={setVoiceDialogOpen}
+    />
       <Sidebar collapsible="icon">
       <SidebarHeader className="flex flex-col gap-4 pt-4">
         <div 
@@ -212,7 +218,7 @@ export const DashboardSidebar = () => {
       </SidebarContent>
       <div className="border-b border-dashed border-border" />
       <SidebarFooter className="gap-3 py-3">
-        
+         <UsageContainer />
         <SidebarMenu>
           <SidebarMenuItem>
             <ClerkUserButton
@@ -238,17 +244,7 @@ export const DashboardSidebar = () => {
       <SidebarRail />
       </Sidebar>
 
-      <Dialog open={voiceDialogOpen} onOpenChange={setVoiceDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Voice cloning</DialogTitle>
-            <DialogDescription>
-              This workspace area is coming soon. Use this space to collect
-              reference audio, presets, and cloning instructions.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      
     </>
   );
 };

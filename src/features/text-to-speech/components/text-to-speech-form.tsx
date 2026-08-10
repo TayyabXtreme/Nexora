@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useTRPC } from "@/trpc/client";
 import { useAppForm } from "@/hooks/use-app-form";
 import { toast } from "@/components/ui/toast";
+import { useCheckout } from "@/features/billing/hooks/use-checkout";
 
 const ttsFormSchema = z.object({
   text: z.string().min(1, "Please enter some text"),
@@ -46,6 +47,8 @@ export function TextToSpeechForm({
     trpc.generations.create.mutationOptions({}),
   );
 
+  const { checkout } = useCheckout();
+
   const form = useAppForm({
     ...ttsFormOptions,
     defaultValues: defaultValues ?? defaultTTSValues,
@@ -77,7 +80,7 @@ export function TextToSpeechForm({
             title: "Subscription required",
             actionProps: {
               children: "Subscribe",
-              onClick: () => {},
+              onClick: () => checkout(),
             },
           });
         } else {
